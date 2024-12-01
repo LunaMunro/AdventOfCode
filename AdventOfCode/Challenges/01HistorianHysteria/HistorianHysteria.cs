@@ -1,14 +1,23 @@
-﻿namespace AdventOfCode.HystorianHysteria
+﻿using System;
+
+namespace AdventOfCode.Challenges.HystorianHysteria
 {
-    internal class HystorianHysteria(string url) : TaskBase
+    internal class HistorianHysteria : ChallengeBase
     {
-        private IEnumerable<(int, int)>? Data;
-        private readonly string Url = url;
+        private IEnumerable<(int, int)> Data;
 
-        public override async Task<int> ProcessPart1()
+        private HistorianHysteria() { } // Private constructor to enforce factory method usage
+
+        public static async Task<HistorianHysteria> CreateChallenge(string url)
         {
-            await this.GetInput(this.Url);
+            HistorianHysteria task = new HistorianHysteria();
+            string taskData = await task.GetInputStringFromUrl(url);
+            task.ExtractInput(taskData);
+            return task;
+        }
 
+        public override int ProcessPart1()
+        {
             int runningDistanceTotal = 0;
             int[] column1 = this.Data.Select(i => i.Item1).Order().ToArray(),
                   column2 = this.Data.Select(i => i.Item2).Order().ToArray();
@@ -20,10 +29,8 @@
             return runningDistanceTotal;
         }
 
-        public override async Task<int> ProcessPart2()
+        public override int ProcessPart2()
         {
-            await this.GetInput(this.Url);
-
             int runningSimilarityScore = 0;
             for (int i = 0; i < this.Data.Count(); i++)
             {
@@ -34,10 +41,9 @@
             return runningSimilarityScore;
         }
 
-        public override async void ParseInput(Task<string> input)
+        public override void ExtractInput(string input)
         {
-            string stringInput = await input;
-            var lines = stringInput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = input.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
             var data = new List<(int, int)>();
 
