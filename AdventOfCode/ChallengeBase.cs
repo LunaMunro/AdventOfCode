@@ -2,14 +2,14 @@
 
 namespace AdventOfCode
 {
-    internal abstract class TaskBase : ITask
+    internal abstract class ChallengeBase : IChallenge, IHasInput
     {
         private string GetUserSession()
         {
             IConfiguration configuration = (IConfiguration)new ConfigurationManager().
                 AddUserSecrets<Program>();
 
-            string sessionToken = configuration["AdventSessionToken"];
+            string? sessionToken = configuration["AdventSessionToken"];
             if (string.IsNullOrEmpty(sessionToken))
             {
                 throw new ArgumentException("AdventOfCode token not found on machine!");
@@ -17,7 +17,7 @@ namespace AdventOfCode
             return sessionToken;
         }
 
-        public async Task GetInput(string url)
+        public async Task<string> GetInputStringFromUrl(string url)
         {
             string sessionToken = this.GetUserSession();
             using (HttpClient client = new HttpClient())
@@ -30,19 +30,20 @@ namespace AdventOfCode
 
                     response.EnsureSuccessStatusCode();
 
-                    this.ParseInput(response.Content.ReadAsStringAsync());
+                    return await response.Content.ReadAsStringAsync();
                 }
                 catch (HttpRequestException e)
                 {
                     Console.WriteLine(e);
+                    throw;
                 }
             }
         }
 
-        public abstract void ParseInput(Task<string> input);
+        public abstract void ExtractInput(string input);
 
-        public abstract Task<int> ProcessPart1();
+        public abstract int ProcessPart1();
 
-        public abstract Task<int> ProcessPart2();
+        public abstract int ProcessPart2();
     }
 }

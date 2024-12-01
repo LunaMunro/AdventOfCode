@@ -2,8 +2,8 @@
 {
     internal interface IHasInput
     {
-        public Task GetInput(string url);
+        public Task<string> GetInputStringFromUrl(string url);
 
-        public void ParseInput(Task<string> input);
+        public void ExtractInput(string input);
     }
 }
