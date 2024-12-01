@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdventOfCode.Challenges.HystorianHysteria
+namespace AdventOfCode.Challenges.HistorianHysteria
 {
     internal class HistorianHysteria : ChallengeBase
     {
