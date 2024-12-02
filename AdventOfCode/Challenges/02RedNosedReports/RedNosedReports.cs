@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Challenges.RedNosedReports
 {
     internal class RedNosedReports : ChallengeBase
     {
+        private static readonly string Url = "https://adventofcode.com/2024/day/2/input";
+
         private IEnumerable<IEnumerable<int>> Data;
 
         private RedNosedReports() { } // Private constructor to enforce factory method usage
 
-        public static async Task<RedNosedReports> CreateChallenge(string url)
+        public static async Task<RedNosedReports> CreateChallenge()
         {
             RedNosedReports task = new RedNosedReports();
-            string taskData = await task.GetInputStringFromUrl(url);
+            string taskData = await task.GetInputStringFromUrl(Url);
             task.ExtractInput(taskData);
             return task;
         }

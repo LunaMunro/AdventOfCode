@@ -4,14 +4,16 @@ namespace AdventOfCode.Challenges.HistorianHysteria
 {
     internal class HistorianHysteria : ChallengeBase
     {
+        private static readonly string Url = "https://adventofcode.com/2024/day/1/input";
+
         private IEnumerable<(int, int)> Data;
 
         private HistorianHysteria() { } // Private constructor to enforce factory method usage
 
-        public static async Task<HistorianHysteria> CreateChallenge(string url)
+        public static async Task<HistorianHysteria> CreateChallenge()
         {
             HistorianHysteria task = new HistorianHysteria();
-            string taskData = await task.GetInputStringFromUrl(url);
+            string taskData = await task.GetInputStringFromUrl(Url);
             task.ExtractInput(taskData);
             return task;
         }
